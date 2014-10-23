@@ -1,0 +1,17 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_splash"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.mycompany.ksan0.translator.activities.fragments.SplashFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="106dp"
+        android:layout_height="106dp"
+        android:id="@+id/progressBar"
+        android:layout_gravity="center" />
+
+</FrameLayout>

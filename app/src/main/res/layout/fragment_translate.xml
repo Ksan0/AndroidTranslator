@@ -1,0 +1,80 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_translate"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.mycompany.ksan0.translator.activities.fragments.TranslateFragment">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center_horizontal|top"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:weightSum="1">
+
+            <Spinner
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinnerFromLang"
+                android:spinnerMode="dropdown" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="swap"
+                android:id="@+id/buttonSwapLang"
+                android:layout_weight="1.07" />
+
+            <Spinner
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinnerToLang"
+                android:spinnerMode="dropdown" />
+        </LinearLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textFrom"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.50" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textTo"
+            android:layout_weight="0.54" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="97dp"
+            android:weightSum="1">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="68dp"
+                android:text="Translate"
+                android:id="@+id/buttonTranslate"
+                android:layout_weight="0.67" />
+
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Auto"
+                android:id="@+id/toggleButtonAutoTranslate"
+                android:layout_weight="0.38"
+                android:checked="false" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>
