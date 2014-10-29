@@ -2,30 +2,27 @@ package com.mycompany.ksan0.translator.activities.fragments;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
+import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import com.mycompany.ksan0.translator.R;
-import com.mycompany.ksan0.translator.activities.activities.FragmentsController;
 import com.mycompany.ksan0.translator.activities.core.LangItem;
 import com.mycompany.ksan0.translator.activities.core.LangItemsController;
 import com.mycompany.ksan0.translator.activities.network.TranslateService;
@@ -38,7 +35,6 @@ public class TranslateFragment extends Fragment
     public static final String SELECTED_LANG_ITEM = "SELECTED_LANG_ITEM";
     public static final String BROADCAST_RECEIVER_FILTER = "BROADCAST_RECEIVER_FILTER";
 
-    private FragmentsController fragmentsController;
     private LangItem currentLangItem;
 
     private ArrayAdapter<String> spinnerAdapterFromLang;
@@ -55,7 +51,7 @@ public class TranslateFragment extends Fragment
 
     private Button buttonSwapLang;
     private Button buttonTranslate;
-    private ToggleButton buttonAutoTranslate;
+    private Switch buttonAutoTranslate;
 
     private BroadcastReceiver broadcastReceiver;
 
@@ -78,8 +74,8 @@ public class TranslateFragment extends Fragment
             spinnerFromLangPos = fromArray.indexOf(currentLangItem.getFromTitle());
             spinnerAdapterFromLang = new ArrayAdapter<String>(
                     getActivity(),
-                    android.R.layout.simple_list_item_1,
-                    android.R.id.text1,
+                    R.layout.item_spinner,
+                    R.id.language,
                     fromArray
             );
 
@@ -87,8 +83,8 @@ public class TranslateFragment extends Fragment
             spinnerToLangPos = toArray.indexOf(currentLangItem.getToTitle());
             spinnerAdapterToLang = new ArrayAdapter<String>(
                     getActivity(),
-                    android.R.layout.simple_list_item_1,
-                    android.R.id.text1,
+                    R.layout.item_spinner,
+                    R.id.language,
                     toArray
             );
         }
@@ -157,13 +153,24 @@ public class TranslateFragment extends Fragment
                 }
             }
         });
+
+        editTextFrom.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId==EditorInfo.IME_ACTION_DONE){
+                    buttonTranslate.callOnClick();
+                }
+                return false;
+            }
+        });
+
         editTextTo   = (TextView)view.findViewById(R.id.textTo);
 
         buttonSwapLang = (Button)view.findViewById(R.id.buttonSwapLang);
         buttonSwapLang.setOnClickListener(this);
         buttonTranslate = (Button)view.findViewById(R.id.buttonTranslate);
         buttonTranslate.setOnClickListener(this);
-        buttonAutoTranslate = (ToggleButton)view.findViewById(R.id.toggleButtonAutoTranslate);
+        buttonAutoTranslate = (Switch)view.findViewById(R.id.toggleButtonAutoTranslate);
 
         return view;
     }
@@ -185,7 +192,6 @@ public class TranslateFragment extends Fragment
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            fragmentsController = (FragmentsController) activity;
         } catch (ClassCastException e) {
         }
     }
@@ -193,7 +199,6 @@ public class TranslateFragment extends Fragment
     @Override
     public void onDetach() {
         super.onDetach();
-        fragmentsController = null;
     }
 
     private void updateLangs(LangItem newCurrentLangItem) {

@@ -1,13 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 20
+    compileSdkVersion 15
     buildToolsVersion "20.0.0"
 
     defaultConfig {
         applicationId "com.mycompany.ksan0.translator"
         minSdkVersion 15
-        targetSdkVersion 20
+        //noinspection OldTargetApi
+        targetSdkVersion 15
         versionCode 1
         versionName "1.0"
     }
