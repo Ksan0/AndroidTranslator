@@ -7,29 +7,50 @@ import android.os.Bundle;
 
 import com.mycompany.ksan0.translator.R;
 import com.mycompany.ksan0.translator.activities.fragments.SplashFragment;
-
-import java.util.ArrayList;
+import com.mycompany.ksan0.translator.activities.fragments.TranslateFragment;
 
 
 public class MainActivity extends Activity implements FragmentsController {
+    public static final String FRAGMENT_TRANSLATE_TAG = "fragment_translate";
+    private TranslateFragment translateFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        updateFragment();
+        if (savedInstanceState != null) {
+            translateFragment = (TranslateFragment)getFragmentManager().findFragmentByTag(FRAGMENT_TRANSLATE_TAG);
+            if (translateFragment != null) {
+                setFragment(translateFragment, true);
+            } else {
+                updateFragment();
+            }
+        } else {
+            updateFragment();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
     }
 
     @Override
     public void setFragment(Fragment fragment, boolean addToBackStack) {
-        FragmentTransaction trans = getFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
         if (addToBackStack) {
-            trans = trans.addToBackStack(null);
+            transaction = transaction.addToBackStack(null);
         }
-
-        trans.replace(R.id.activity_main, fragment)
+        if (fragment instanceof TranslateFragment) {
+            transaction
+            .replace(R.id.activity_main, fragment, FRAGMENT_TRANSLATE_TAG)
+            .commit();
+        } else {
+            transaction
+            .replace(R.id.activity_main, fragment)
             .commitAllowingStateLoss();
+        }
 
     }
 

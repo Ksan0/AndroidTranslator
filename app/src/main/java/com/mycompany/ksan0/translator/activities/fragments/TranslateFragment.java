@@ -47,7 +47,7 @@ public class TranslateFragment extends Fragment
     private int spinnerToLangPos;
 
     private EditText editTextFrom;
-    private TextView editTextTo;
+    private EditText editTextTo;
 
     private Button buttonSwapLang;
     private Button buttonTranslate;
@@ -56,8 +56,14 @@ public class TranslateFragment extends Fragment
     private BroadcastReceiver broadcastReceiver;
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             broadcastReceiver = new BroadcastReceiver() {
                 @Override
@@ -88,14 +94,20 @@ public class TranslateFragment extends Fragment
                     toArray
             );
         }
+    }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (broadcastReceiver != null) {
+            getActivity().unregisterReceiver(broadcastReceiver);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_translate, container, false);
-
         spinnerLangFrom = (Spinner) view.findViewById(R.id.spinnerFromLang);
         spinnerLangFrom.setAdapter(spinnerAdapterFromLang);
         spinnerLangFrom.setSelection(spinnerFromLangPos);
@@ -164,14 +176,13 @@ public class TranslateFragment extends Fragment
             }
         });
 
-        editTextTo   = (TextView)view.findViewById(R.id.textTo);
+        editTextTo   = (EditText)view.findViewById(R.id.textTo);
 
         buttonSwapLang = (Button)view.findViewById(R.id.buttonSwapLang);
         buttonSwapLang.setOnClickListener(this);
         buttonTranslate = (Button)view.findViewById(R.id.buttonTranslate);
         buttonTranslate.setOnClickListener(this);
         buttonAutoTranslate = (Switch)view.findViewById(R.id.toggleButtonAutoTranslate);
-
         return view;
     }
 

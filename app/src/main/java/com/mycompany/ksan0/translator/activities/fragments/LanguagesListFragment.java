@@ -32,7 +32,12 @@ public class LanguagesListFragment extends Fragment implements AbsListView.OnIte
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAdapter = new ArrayAdapter<LangItem>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, LangItemsController.getInstance().getLangItems());
+        mAdapter = new ArrayAdapter<LangItem>(
+                getActivity(),
+                android.R.layout.simple_list_item_1,
+                android.R.id.text1,
+                LangItemsController.getInstance().getLangItems()
+        );
     }
 
     @Override
