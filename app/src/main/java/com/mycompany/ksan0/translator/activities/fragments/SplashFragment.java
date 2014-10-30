@@ -20,16 +20,28 @@ public class SplashFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (taskInitDownload == null) {
+            taskInitDownload = new AsyncTaskInitDownload(fragmentsController, null);
+            taskInitDownload.execute();
+        }
+        setRetainInstance(true);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        taskInitDownload.cancel(true);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_splash, container, false);
 
-        if (taskInitDownload == null) {
-            taskInitDownload = new AsyncTaskInitDownload(fragmentsController, null);
+        if (taskInitDownload.isCancelled()) {
             taskInitDownload.execute();
         }
 

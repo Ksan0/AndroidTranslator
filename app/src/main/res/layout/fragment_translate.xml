@@ -25,8 +25,8 @@
                 android:layout_gravity="right|top"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
                 android:id="@+id/spinnerFromLang"
+                android:layout_weight="2"
                 android:spinnerMode="dropdown" />
 
             <Button
@@ -48,25 +48,26 @@
         </LinearLayout>
 
         <EditText
+            android:gravity="top|left"
             android:inputType="text"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:id="@+id/textFrom"
             android:layout_gravity="top"
             android:layout_weight="4.2"
-            android:singleLine="true"
-            android:imeOptions="actionDone"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault"/>
 
         <EditText
+            android:gravity="top|left"
             android:inputType="none"
+            android:focusable="false"
             android:scrollbars="vertical"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="top"
             android:id="@+id/textTo"
             android:layout_weight="4.2"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault"/>
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault" />
 
         <LinearLayout
             android:orientation="horizontal"

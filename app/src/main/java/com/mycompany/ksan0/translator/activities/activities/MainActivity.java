@@ -33,6 +33,7 @@ public class MainActivity extends Activity implements FragmentsController {
     @Override
     protected void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
+
     }
 
     @Override

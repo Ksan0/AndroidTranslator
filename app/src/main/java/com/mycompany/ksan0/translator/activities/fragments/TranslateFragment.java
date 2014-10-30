@@ -9,18 +9,16 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import com.mycompany.ksan0.translator.R;
 import com.mycompany.ksan0.translator.activities.core.LangItem;
@@ -99,8 +97,12 @@ public class TranslateFragment extends Fragment
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (broadcastReceiver != null) {
-            getActivity().unregisterReceiver(broadcastReceiver);
+        if (broadcastReceiver != null ) {
+            try {
+                getActivity().unregisterReceiver(broadcastReceiver);
+            } catch (IllegalArgumentException ex) {
+                Log.d(this.getClass().toString(), "unregister unregisterable failed!");
+            }
         }
     }
 
@@ -166,16 +168,6 @@ public class TranslateFragment extends Fragment
             }
         });
 
-        editTextFrom.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId==EditorInfo.IME_ACTION_DONE){
-                    buttonTranslate.callOnClick();
-                }
-                return false;
-            }
-        });
-
         editTextTo   = (EditText)view.findViewById(R.id.textTo);
 
         buttonSwapLang = (Button)view.findViewById(R.id.buttonSwapLang);
@@ -190,11 +182,15 @@ public class TranslateFragment extends Fragment
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.buttonTranslate:
-                translateCurrentText(editTextFrom.getText());
                 editTextTo.setText("");
+                translateCurrentText(editTextFrom.getText());
                 break;
             case R.id.buttonSwapLang:
                 updateLangs(LangItemsController.getInstance().findBy(currentLangItem.getToTitle(), currentLangItem.getFromTitle()));
+                break;
+            case R.id.toggleButtonAutoTranslate:
+                editTextTo.setText("");
+                translateCurrentText(editTextFrom.getText());
                 break;
         }
     }
@@ -226,6 +222,9 @@ public class TranslateFragment extends Fragment
         ArrayList<String> arrTitleToLang = LangItemsController.getInstance().findAllMatchesFromLangTitle(currentLangItem.getFromTitle());
         spinnerArrayAdapterToLang.addAll(arrTitleToLang);
         spinnerLangTo.setSelection(arrTitleToLang.indexOf(currentLangItem.getToTitle()));
+
+        editTextTo.setText("");
+        translateCurrentText(editTextFrom.getText());
     }
 
     private void translateCurrentText(Editable editable) {
